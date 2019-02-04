@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %} {% block body %}
+<div class="container">
+    <h1>Affichage ToDoList</h1>
+
+    <p>
+        <a href="{{ path('app_task_edit') }}">
+            Ajouter une tâche
+        </a>
+    </p>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Tâche</th>
+            <th width="250px"></th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.id }}</td>
+            <td>{{ task.name }}</td>
+            <td>
+                <a href=" {{ path('app_task_edit', {id: task.id}) }}" class="btn btn-primary">
+                    Modifier
+                </a>
+                <a href="{{ path('app_task_delete', {id: task.id}) }}" class="btn btn-danger">
+                    Supprimer
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

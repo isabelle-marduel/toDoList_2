@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %} {% block body %}
+<div class="container">
+    <h1>Entrer une nouvelle tâche</h1>
+    {# ouvre la balise form #} { { form_start(form) }} {# bloc de formulaire pour l'attribut name #} {{ form_row(form.name) }}
+
+    <div class="text-right">
+        <button type="submit" class="btn btn-info">
+                Enregistrer
+            </button>
+        <a href="{{ path('app_task_index') }}" class="btn btn-outline-secondary">
+                Retour
+            </a>
+    </div>
+
+    {# ferme la balise form #} {{ form_end(form) }}
+</div>
+{% endblock %}
