@@ -64,8 +64,6 @@ class TaskController extends AbstractController
                 $em->persist($task);
                 $em->flush();
 
-//                message de confirmation
-                $this->addFlash('success', 'La tâche a été créée');
 //                redirection vers la liste
                 return $this->redirectToRoute('app_task_index');
             } else {
@@ -84,21 +82,22 @@ class TaskController extends AbstractController
     /**
      * @Route("/suppression/{id}")
      */
-    public function delete(Task $task)
+    public function delete($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(Task::class);
+        $task = $repository->find($id);
 
-        $em->remove($task);
-        $em->flush();
+//        si l'id existe en bdd
+        if (!is_null($task)) {
+//            suppression de l'utilisateur en bdd
+            $em->remove($task);
+            $em->flush();
 
-        $this->addFlash(
-            'success',
-            'La tâche a été supprimée.'
-        );
-
-        return $this->redirectToRoute(
-            'app_index'
-        );
+            return $this->redirectToRoute(
+                'app_task_index'
+            );
+        }
     }
 
 
