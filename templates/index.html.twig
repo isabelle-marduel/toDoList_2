@@ -12,12 +12,24 @@
         <tr>
             <th>Id</th>
             <th>Tâche</th>
+            <th>Statut</th>
+            <th width="250px">Changer statut</th>
             <th width="250px"></th>
         </tr>
         {% for task in tasks %}
         <tr>
             <td>{{ task.id }}</td>
             <td>{{ task.name }}</td>
+            <td>{{ task.status }}</td>
+            <td>
+                {% if (task.getStatus() == 'en cours') %}
+                <a href=" {{ path('app_task_completed', {id: task.id}) }}" class="btn btn-success">
+                        Définir comme "terminée"
+                    </a> {% endif %} {% if (task.getStatus() == 'terminée') %}
+                <a href=" {{ path('app_task_inprogress', {id: task.id}) }}" class="btn btn-warning">
+                        Définir comme "en cours"
+                    </a> {% endif %}
+            </td>
             <td>
                 <a href=" {{ path('app_task_edit', {id: task.id}) }}" class="btn btn-primary">
                     Modifier

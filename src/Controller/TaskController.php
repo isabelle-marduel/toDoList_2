@@ -9,12 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Task;
 use App\Form\TaskType;
 
-    /**
-     * Class TaskController
-     * @package App\Controller
-     *
-     * @Route("/")
-     */
+/**
+ * Class TaskController
+ * @package App\Controller
+ *
+ * @Route("/")
+ */
 class TaskController extends AbstractController
 {
     /**
@@ -100,5 +100,41 @@ class TaskController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/{id}/inProgress")
+     */
+    public function inProgress($id)
+    {
+        $em         = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(Task::class);
+        $task       = $repository->find($id);
 
+        if ($task) {
+            $task->setStatus('en cours');
+
+            $em->flush();
+        }
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('app_task_index');
+    }
+
+    /**
+     * @Route("/{id}/completed")
+     */
+    public function completed($id)
+    {
+        $em         = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(Task::class);
+        $task       = $repository->find($id);
+
+        if ($task) {
+            $task->setStatus('terminée');
+
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_task_index');
+    }
 }

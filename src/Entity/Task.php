@@ -23,6 +23,11 @@ class Task
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $status = "en cours";
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +41,26 @@ class Task
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */
+    public function setStatus($status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
