@@ -28,6 +28,11 @@ class Task
      */
     private $status = "en cours";
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ToDoList", inversedBy="tasks")
+     */
+    private $list;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +66,18 @@ class Task
     public function setStatus($status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getList(): ?ToDoList
+    {
+        return $this->list;
+    }
+
+    public function setList(?ToDoList $list): self
+    {
+        $this->list = $list;
 
         return $this;
     }
