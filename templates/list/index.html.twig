@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %} {% block body %}
+<div class="container">
+    <h1>Affichage des listes de toDo</h1>
+
+    <p>
+        <a href="{{ path('listapp_todolist_edit') }}">
+            Ajouter une liste
+        </a>
+        <a href="{{ path('app_task_index') }}">
+            Afficher les tâches
+        </a>
+    </p>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Liste</th>
+            <th width="250px"></th>
+        </tr>
+        {% for list in lists %}
+        <tr>
+            <td>{{ list.id }}</td>
+            <td>{{ list.name }}</td>
+            <td>
+                <a href="{{ path('listapp_todolist_edit', {id: list.id}) }}" class="btn btn-primary">
+                    Modifier
+                </a>
+                <a href="{{ path('listapp_todolist_delete', {id: list.id}) }}" class="btn btn-danger">
+                    Supprimer
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

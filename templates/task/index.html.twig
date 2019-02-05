@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %} {% block body %}
 <div class="container">
-    <h1>Affichage ToDoList</h1>
+    <h1>Affichage des toDo</h1>
 
     <p>
         <a href="{{ path('app_task_edit') }}">
             Ajouter une tâche
+        </a>
+         <a href="{{ path('listapp_todolist_index') }}">
+            Afficher les listes
         </a>
     </p>
 
@@ -13,6 +16,7 @@
             <th>Id</th>
             <th>Tâche</th>
             <th>Statut</th>
+            <th>Liste</th>
             <th width="250px">Changer statut</th>
             <th width="250px"></th>
         </tr>
@@ -21,6 +25,7 @@
             <td>{{ task.id }}</td>
             <td>{{ task.name }}</td>
             <td>{{ task.status }}</td>
+            <td></td>
             <td>
                 {% if (task.getStatus() == 'en cours') %}
                 <a href=" {{ path('app_task_completed', {id: task.id}) }}" class="btn btn-success">

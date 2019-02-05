@@ -27,7 +27,7 @@ class TaskController extends AbstractController
         $tasks = $repository->findBy([], ['id' => 'desc']);
 
         return $this->render(
-            'index.html.twig',
+            'task/index.html.twig',
             [
                 'tasks' => $tasks
             ]
@@ -66,12 +66,10 @@ class TaskController extends AbstractController
 
 //                redirection vers la liste
                 return $this->redirectToRoute('app_task_index');
-            } else {
-                $this->addFlash('error', 'Le formulaire contient des erreurs.');
             }
 
         return $this->render(
-            'edit.html.twig',
+            'task/edit.html.twig',
             [
 //                passage du formulaire au template
                 'form' => $form->createView()
@@ -90,7 +88,6 @@ class TaskController extends AbstractController
 
 //        si l'id existe en bdd
         if (!is_null($task)) {
-//            suppression de l'utilisateur en bdd
             $em->remove($task);
             $em->flush();
 
