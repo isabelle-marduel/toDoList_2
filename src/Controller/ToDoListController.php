@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ToDoList;
 use App\Form\ToDoListType;
+use App\Entity\Task;
 
 /**
  * Class ToDoListController
@@ -92,5 +93,26 @@ class ToDoListController extends AbstractController
 
             return $this->redirectToRoute('listapp_todolist_index');
         }
+    }
+
+    /**
+     * @Route("/detail_liste/{id}")
+     */
+    public function listDetail($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(ToDoList::class);
+        $list = $repository->find($id);
+
+        $repository2 = $em->getRepository(Task::class);
+        $tasks = $repository2->findBy(['id' => $id], ['id' => 'desc']);
+
+        return $this->render(
+            'list/detail.html.twig',
+            [
+                'list' => $list,
+                'tasks' => $tasks
+            ]
+        );
     }
 }

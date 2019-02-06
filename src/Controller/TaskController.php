@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Entity\ToDoList;
 
 /**
  * Class TaskController
@@ -24,15 +25,30 @@ class TaskController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository(Task::class);
+        $lm = $em->getRepository(ToDoList::class);
         $tasks = $repository->findBy([], ['id' => 'desc']);
+        $tasks2 = [];
+        foreach ($tasks as $task) {
+            $list = $lm->findOneBy(['id' => $task->getList()]);
+            if(!$list){
+                $task->listName = '';
+                $task->listId = '';
+                $tasks2[] = $task;
+                continue;
+            }
+            $task->listName = $list->getName();
+            $task->listId = $list->getId();
+            $tasks2[] = $task;
+        }
 
         return $this->render(
             'task/index.html.twig',
             [
-                'tasks' => $tasks
+                'tasks' => $tasks2
             ]
         );
     }
+
 
     /**
      * {id} est optionnel et doit être un nombre
@@ -100,7 +116,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/{id}/inProgress")
      */
-    public function inProgress($id)
+    public function inProgress(Request $request, $id)
     {
         $em         = $this->getDoctrine()->getManager();
         $repository = $em->getRepository(Task::class);
@@ -114,7 +130,7 @@ class TaskController extends AbstractController
 
         $this->getDoctrine()->getManager()->flush();
 
-        return $this->redirectToRoute('app_task_index');
+        return $this->redirect($request->server->get('HTTP_REFERER'));
     }
 
     /**
